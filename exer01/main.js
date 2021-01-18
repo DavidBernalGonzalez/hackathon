@@ -23,5 +23,5 @@ function removeClass(className) {
     } catch (err) { }
 }
 
-let printMsg = () => alert("Has ganado");
+const printMsg = () => alert("Has ganado");
 

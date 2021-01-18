@@ -1,0 +1,12 @@
+.error {
+  border: 1px solid red !important;
+}
+
+.correct {
+  border: 1px solid green !important;
+}
+
+input,
+textarea {
+  margin-bottom: 5px;
+}
