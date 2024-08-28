@@ -17,4 +17,5 @@ public class EventRecibeMultipartFileDTO implements Serializable{
     private Date date;
     private MultipartFile image;
     private List<Long> categoryIds;
+    private List<Long> neighborhoodsIds;
 }

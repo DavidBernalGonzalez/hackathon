@@ -17,7 +17,7 @@ CREATE TABLE neighborhood (
     name VARCHAR(255) NOT NULL UNIQUE,
     postal_code VARCHAR(5) NOT NULL,
     city_id BIGINT NOT NULL,
-    FOREIGN KEY (city_id) REFERENCES city(id) ON DELETE CASCADE
+    FOREIGN KEY (city_id) REFERENCES city(id) # ON DELETE CASCADE
 );
 
 -- Insertar datos en Barrio - Tarragona
@@ -64,8 +64,15 @@ CREATE TABLE event (
 
 -- Insertar datos en Evento
 INSERT INTO event (image_url, name, description, date) VALUES 
-('https://example.com/event1.jpg', 'Hackathon 2024', 'Annual hackathon event in Tarragona', '2024-09-15'),
-('https://example.com/event2.jpg', 'Tech Meetup', 'Monthly tech meetup in Reus', '2024-08-20');
+('https://hackathontarragona2024.blob.core.windows.net/blob-container/event01.png', 'Hackathon (Tarragona)', 'Annual hackathon event in Tarragona', '2024-09-15'),
+('https://hackathontarragona2024.blob.core.windows.net/blob-container/event02.png', 'Tech Meetup (Reus)', 'Monthly tech meetup in Reus', '2024-08-20'),
+('https://hackathontarragona2024.blob.core.windows.net/blob-container/event03.png', 'Hackathon II (Tarragona)', '¿Ganas de más? Lanzamos un 2º reto.', '2024-12-20'),
+('https://hackathontarragona2024.blob.core.windows.net/blob-container/event04.png', 'IT Tech (Reus)', 'Code class in Baix Camp', '2024-08-20'),
+('https://hackathontarragona2024.blob.core.windows.net/blob-container/event05.png', 'Vidal i Barraquer Master (Tarragona)', 'React.js Master Class', '2025-01-26'),
+('https://hackathontarragona2024.blob.core.windows.net/blob-container/event06.png', 'Networking Tech (Tarragona)', 'Universitat Rovira i Virgili ', '2024-10-25'),
+('https://hackathontarragona2024.blob.core.windows.net/blob-container/event07.png', 'Childrens Help Tech (Tarragona & Reus)', 'Repte per ajudar als nens/es dels hospitals.', '2024-09-11');
+
+# SELECT * FROM event;
 
 -- Crear tabla Evento-Barrio (relación muchos a muchos)
 CREATE TABLE event_has_neighborhood (
@@ -78,7 +85,7 @@ CREATE TABLE event_has_neighborhood (
 
 -- Insertar datos en Evento-Barrio
 INSERT INTO event_has_neighborhood (event_id, neighborhood_id) VALUES 
-(1, 1), (1, 2), (2, 15), (2, 16), (2, 17);
+(1, 1), (1, 2), (2, 15), (2, 16), (2, 17), (3, 3), (3, 4), (3, 5), (3, 6), (4, 14), (4, 16), (4, 17), (5, 4), (6, 4), (7, 1), (7, 2), (7, 3), (7, 4), (7, 5), (7, 6), (7, 7), (7, 8), (7, 9), (7, 10), (7, 11), (7, 12), (7, 13), (7, 14), (7, 15), (7, 16), (7, 17), (7, 18), (7, 19), (7, 20), (7, 21), (7, 22), (7, 23), (7, 24), (7, 25), (7, 26), (7, 27);
 
 -- Crear tabla Categoría
 CREATE TABLE category (
@@ -100,9 +107,7 @@ CREATE TABLE event_has_category (
 
 -- Insertar datos en Evento-Categoría
 INSERT INTO event_has_category (event_id, category_id) VALUES 
-(1, 1), (1, 2), (2, 1), (2, 3);
-
-
+(1, 1), (1, 2), (2, 1), (2, 3), (3, 1), (3, 2), (3, 3), (4, 1), (4, 2), (5, 1), (5, 2), (6, 1), (6, 3), (7, 1), (7, 3), (7, 4);
 
 SELECT * FROM city;
 SELECT * FROM neighborhood;

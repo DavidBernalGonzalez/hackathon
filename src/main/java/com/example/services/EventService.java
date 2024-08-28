@@ -21,6 +21,7 @@ import com.example.dto.EventWithNeighborhoodsAndCategoriesDTO;
 import com.example.dto.NeighborhoodDTO;
 import com.example.entities.CategoryEntity;
 import com.example.entities.EventEntity;
+import com.example.entities.NeighborhoodEntity;
 import com.example.repository.CategoryRepository;
 import com.example.repository.EventRepository;
 import com.example.repository.NeighborhoodRepository;
@@ -33,12 +34,14 @@ public class EventService {
 	private final BlobServiceClient blobServiceClient;
 	private final EventRepository eventRepository;
 	private final CategoryRepository categoryRepository;
+	private final NeighborhoodRepository neighborhoodRepository;
 
 	public EventService(BlobServiceClient blobServiceClient, EventRepository eventRepository,
 			CategoryRepository categoryRepository, NeighborhoodRepository neighborhoodRepository) {
 		this.blobServiceClient = blobServiceClient;
 		this.eventRepository = eventRepository;
 		this.categoryRepository = categoryRepository;
+		this.neighborhoodRepository = neighborhoodRepository;
 	}
 
 	public List<BasicEventDTO> findAllBasicEvents() {
@@ -49,7 +52,7 @@ public class EventService {
 	public Optional<BasicEventDTO> findEventById(Long id) {
 		Optional<EventEntity> eventEntity = eventRepository.findById(id);
 		Optional<BasicEventDTO> basicEventDTO = Optional.ofNullable(new BasicEventDTO());
-		if(eventEntity.isPresent()) {
+		if (eventEntity.isPresent()) {
 			basicEventDTO.get().setId(eventEntity.get().getId());
 			basicEventDTO.get().setName(eventEntity.get().getName());
 			basicEventDTO.get().setDescription(eventEntity.get().getDescription());
@@ -91,6 +94,18 @@ public class EventService {
 			}
 		}
 		eventEntity.setCategories(categories);
+
+		// Crea un conjunto de categorías
+		List<NeighborhoodEntity> neighborhoods = new ArrayList<>();
+		for (Long neighborhoodId : eventDTO.getNeighborhoodsIds()) {
+			Optional<NeighborhoodEntity> neighborhoodEntityOpt = neighborhoodRepository.findById(neighborhoodId);
+			if (neighborhoodEntityOpt.isPresent()) {
+				neighborhoods.add(neighborhoodEntityOpt.get());
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Neighborhood not found for ID: " + neighborhoodId);
+			}
+		}
+		eventEntity.setNeighborhoods(neighborhoods);
 		// Guarda la imagen en Azure Blob Storage y setea la URL en la entidad Evento
 		eventEntity.setImageUrl(imageUrl);
 
